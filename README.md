@@ -1,1 +1,1 @@
-Spring+SpringMV+MyBatis整合框架。
+Spring+SpringMVC+MyBatis整合框架。
