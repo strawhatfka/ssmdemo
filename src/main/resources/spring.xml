@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--导入MyBatis整合配置文件-->
+    <import resource="spring-mybatis.xml"/>
+
+    <!--Spring整合配置-->
+
+    <!-- 扫描组件（除控制层，controller。原因：在spring-mvc.xml中已对其开启扫描） -->
+    <context:component-scan base-package="com.ouyue.ssm">
+        <!--以注解方式，排除对控制层组件的扫描-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--
+    开启事务注解驱动
+    将使用@Transactional注解标识的方法或类中所有的方法作为切入点，将事务管理增强到这些切入点（这个过程叫做切面）
+    -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
